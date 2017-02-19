@@ -17746,10 +17746,16 @@ function initUI() {
         // Only trigger a search when 2 chars. at least have been provided
         var query = searchBox.first().value;
         if (query.length < 2) {
+            resultsBox.addClass('hidden');
             return;
         }
 
         var results = search(query);
+        if (results.length > 0){
+            resultsBox.removeClass('hidden');
+        } else {
+            resultsBox.addClass('hidden');
+        }
         console.log('Results');
         console.log(results);
 
@@ -17767,8 +17773,8 @@ function renderResults(results) {
         return;
     }
 
-    // Only show the ten first results
-    results.slice(0, 10).forEach(function(result) {
+    // Only show the three first results
+    results.slice(0, 3).forEach(function(result) {
         resultsBox.append("<li> <a href='" + getCurrentHostname() + result.href + "'>" + result.title + "</a></li>");
     });
 }
