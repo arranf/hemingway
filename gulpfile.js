@@ -1,19 +1,45 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var autoprefixer = require('gulp-autoprefixer');
+var gulp = require('gulp'),
+    sass = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'),
+    concat = require('gulp-concat'),
+    rename = require('gulp-rename'),
+    uglify = require('gulp-uglify'),
+    flatten = require('gulp-flatten');
+
+var styleLocation = 'sass/style.sass';
+var jsLocation = 'js/**/*.js'
+var buildLocation = 'static/';
+
+// TODO Make this DRY
 
 gulp.task("default", function () {
-  gulp.src('sass/style.sass')
+  gulp.src(styleLocation)
+   .pipe(gulp.dest('./build/sass'));
+
+  gulp.src(jsLocation)
+   .pipe(gulp.dest('./build/js'));
+
+  gulp.src('build/sass/**/*.{sass,scss}')
     .pipe(sass({outputStyle: 'compressed'}))
     .pipe(autoprefixer())
-    .pipe(gulp.dest('static/css/'));
+    .pipe(flatten())
+    .pipe(gulp.dest(buildLocation + 'css'));
+
+  gulp.src('build/js/**/*.js')
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest(buildLocation + 'js/'));
 });
 
 gulp.task("watch", function () {
-  gulp.watch('sass/style.sass', function() {
-    gulp.src('sass/style.sass')
+  gulp.watch(styleLocation, function() {
+    gulp.src(styleLocation)
       .pipe(sass({outputStyle: 'compressed'}))
       .pipe(autoprefixer())
-      .pipe(gulp.dest('static/css/'));
+      .pipe(gulp.dest(buildLocation + 'css/'));
+  });
+  gulp.watch(jsLocation, function () {
+      gulp.src('build/js/**/*.js')
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest(buildLocation + 'js/'));
   });
 });
