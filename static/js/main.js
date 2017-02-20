@@ -17739,7 +17739,6 @@ function initUI() {
     searchBox = u("#search");
     console.log(resultsBox);
     searchBox.on('keyup', function() {
-        console.log('Keyup');
         // remove all suggestions
         u("#results li").remove();
 

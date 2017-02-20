@@ -5,21 +5,35 @@
         <a class="nav-item" href="{{ .Site.BaseURL }}"><h1 class="title is-4">{{ .Site.Title }}</h1></a>
       </div>
       <div class="nav-right">
+         <nav class="nav-item level is-hidden-mobile" style="margin-top:20px;">
+              {{ range .Site.Params.social }}
+                  <a class="level-item grey-dark" href="{{ .url }}">
+                    <span class="icon">
+                      <i class="fa {{ .fa_icon }}"></i>
+                    </span>
+                  </a>
+              {{ end }}
+          </nav>
         <nav class="nav-item level is-mobile">
             <div class="search-container">
                 <input id="search" type="text" class="level-item" placeholder="Search" class="input" />
                 <ul id="results" class="results no-bullets hidden">
                 </ul>
             </div>
-          {{ range .Site.Params.social }}
-          <a class="level-item" href="{{ .url }}">
-            <span class="icon">
-              <i class="fa {{ .fa_icon }}"></i>
-            </span>
-          </a>
-          {{ end }}
         </nav>
       </div>
+
     </nav>
+    <div class="columns is-mobile is-hidden-tablet">
+        {{ range .Site.Params.social }}
+            <div class="column is-third has-text-centered is-narrow">
+                <a class="level-item grey-dark" href="{{ .url }}">
+                  <span class="icon">
+                    <i class="fa {{ .fa_icon }}"></i>
+                  </span>
+                </a>
+            </div>
+        {{ end }}
+    </div>
   </div>
 </section>
